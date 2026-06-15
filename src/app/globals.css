@@ -2,26 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens from astroprize/design */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --color-base:     #0a0a0a;
+  --color-surface:  #111111;
+  --color-raised:   #1a1a1a;
+  --color-border:   #2a2a2a;
+
+  /* Text */
+  --color-text-primary:   #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted:     #52525b;
+
+  /* Accent */
+  --color-accent:         #6366f1;
+  --color-accent-hover:   #818cf8;
+  --color-accent-subtle:  #1e1b4b;
+  --color-accent-border:  #3730a3;
+
+  /* Status */
+  --color-success:        #22c55e;
+  --color-success-subtle: #052e16;
+  --color-danger:         #ef4444;
+  --color-danger-subtle:  #450a0a;
+  --color-warning:        #f59e0b;
+  --color-warning-subtle: #451a03;
+
+  /* Radii */
+  --radius-card: 0.75rem;
+  --radius-btn:  0.5rem;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-base);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
 }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-accent-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.input {
+  display: block;
+  width: 100%;
+  background: var(--color-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  color: var(--color-text-primary);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+.input::placeholder { color: var(--color-text-muted); }
