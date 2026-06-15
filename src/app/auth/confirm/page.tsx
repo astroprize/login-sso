@@ -37,8 +37,7 @@ function ConfirmHandler() {
         expires_at: session.expires_at ?? Math.floor(Date.now() / 1000) + 3600,
       });
 
-      const next = sessionStorage.getItem("next") ?? "";
-      sessionStorage.removeItem("next");
+      const next = searchParams.get("next") ?? "";
 
       router.replace(isTrustedNext(next) ? next : "/success");
     }

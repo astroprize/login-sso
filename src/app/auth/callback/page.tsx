@@ -28,7 +28,11 @@ export default function CallbackPage() {
       const next = sessionStorage.getItem("next") ?? "";
       sessionStorage.removeItem("next");
 
-      router.replace(isTrustedNext(next) ? next : "https://apps.dparmar.com");
+      // Also check URL params as fallback (next embedded in emailRedirectTo)
+      const urlNext = new URLSearchParams(window.location.search).get("next") ?? "";
+      const destination = next || urlNext;
+
+      router.replace(isTrustedNext(destination) ? destination : "https://apps.dparmar.com");
     }
 
     handleCallback();

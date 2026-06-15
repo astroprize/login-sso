@@ -10,19 +10,19 @@ function SignInForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => {
-    const next = searchParams.get("next");
-    if (next) sessionStorage.setItem("next", next);
-  }, [searchParams]);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
     setErrorMsg("");
 
+    const next = searchParams.get("next") ?? "";
+    const emailRedirectTo = next
+      ? `https://login.dparmar.com/auth/confirm?next=${encodeURIComponent(next)}`
+      : "https://login.dparmar.com/auth/confirm";
+
     const { error } = await getSupabase().auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: "https://login.dparmar.com/auth/callback" },
+      options: { emailRedirectTo },
     });
 
     if (error) {
