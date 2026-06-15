@@ -16,13 +16,15 @@ function SignInForm() {
     setErrorMsg("");
 
     const next = searchParams.get("next") ?? "";
-    const emailRedirectTo = next
-      ? `https://login.dparmar.com/auth/confirm?next=${encodeURIComponent(next)}`
-      : "https://login.dparmar.com/auth/confirm";
+    if (next) {
+      // Store in a .dparmar.com cookie so auth/confirm can read it
+      // even when the magic link opens in a new tab
+      document.cookie = `sso-next=${encodeURIComponent(next)}; domain=.dparmar.com; path=/; SameSite=Lax; Secure; Max-Age=600`;
+    }
 
     const { error } = await getSupabase().auth.signInWithOtp({
       email,
-      options: { emailRedirectTo },
+      options: { emailRedirectTo: "https://login.dparmar.com/auth/confirm" },
     });
 
     if (error) {

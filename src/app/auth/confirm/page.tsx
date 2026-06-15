@@ -37,7 +37,10 @@ function ConfirmHandler() {
         expires_at: session.expires_at ?? Math.floor(Date.now() / 1000) + 3600,
       });
 
-      const next = searchParams.get("next") ?? "";
+      // Read next from .dparmar.com cookie set by sign-in page
+      const nextMatch = document.cookie.match(/sso-next=([^;]+)/);
+      const next = nextMatch ? decodeURIComponent(nextMatch[1]) : "";
+      document.cookie = "sso-next=; domain=.dparmar.com; path=/; Max-Age=0";
 
       router.replace(isTrustedNext(next) ? next : "/success");
     }
