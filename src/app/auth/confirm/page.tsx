@@ -40,7 +40,7 @@ function ConfirmHandler() {
       const next = sessionStorage.getItem("next") ?? "";
       sessionStorage.removeItem("next");
 
-      router.replace(isTrustedNext(next) ? next : "https://apps.dparmar.com");
+      router.replace(isTrustedNext(next) ? next : "/success");
     }
 
     handleConfirm();
